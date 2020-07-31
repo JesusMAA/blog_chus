@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for
 from myapp.models import FileContents, User, Blog
 from base64 import b64encode
 
-site = Blueprint('site', __name__, template_folder='templates', static_folder='myapp/static')
+site = Blueprint('site', __name__, template_folder='templates/site', static_folder='myapp/static')
 
 
 @site.route('/')

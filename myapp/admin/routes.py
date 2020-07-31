@@ -49,10 +49,10 @@ def upload_blog_saved():
     db.session.commit()
     return 'Save'
 
-@admin.route('/delete_blog')
-def delete_blog():
+@admin.route('/admin_blog')
+def admin_blog():
     blog = Blog.query.all()
-    return render_template("delete_blog.html", blog=blog)
+    return render_template("admin_blog.html", blog=blog)
 
 @admin.route('/delete_blog_success/<int:id>', methods=['POST'])
 def delete_blog_success(id):
