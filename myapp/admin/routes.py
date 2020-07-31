@@ -40,7 +40,7 @@ def upload_blog_saved():
     blog = req.get('blog')
     file = request.files['inputFile']    
     fileObj = Path(rout_generic+'images/user')
-    if fileObj.is_file():
+    if not fileObj.is_dir():
         os.mkdir(rout_generic+'images/user')
     file.save(os.path.join(rout_generic+'images/user', file.filename))
     rout = 'images/user/{}'.format(file.filename)
@@ -69,14 +69,20 @@ def update_blog(id):
 
 @admin.route('/update_blog_save/<int:id>', methods=['POST'])
 def update_blog_save(id):
+    blog = Blog.query.filter_by(id=id).first()
     req = request.form
     title = req.get('title')
-    print(title)
     description = req.get('description')
-    print(description)
-    blog = Blog.query.filter_by(id=id).first()
+    os.remove(rout_generic+blog.image_dir_blog)
+    file = request.files['inputFile']
+    fileObj = Path(rout_generic+'images/user')
+    if not fileObj.is_dir():
+        os.mkdir(rout_generic+'images/user')
+    file.save(os.path.join(rout_generic+'images/user', file.filename))
+    rout = 'images/user/{}'.format(file.filename)
     blog.title = title
     blog.blog_description = description
+    blog.image_dir_blog = rout
     db.session.commit()
     return '<a href="/index">Volver al inicio</a>'
     
