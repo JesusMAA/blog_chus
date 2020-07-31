@@ -6,6 +6,7 @@ site = Blueprint('site', __name__, template_folder='templates', static_folder='m
 
 
 @site.route('/')
+@site.route('/index')
 def index():
     user = User.query.filter_by(id=1).first()
     #blog = Blog.query.filter_by(id=1).first()

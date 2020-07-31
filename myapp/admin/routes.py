@@ -7,7 +7,7 @@ import os
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates/admin')
 
-
+rout_generic = '/home/chus/Documentos/Portafolio/flask/hola/myapp/static/'
 
 @admin.route('/')
 def admin_index():
@@ -35,21 +35,51 @@ def upload_blog():
 
 @admin.route('/upload_blog_saved', methods=['POST'])
 def upload_blog_saved():
-    print(request.files)
     req = request.form
     title = req.get('title')
     blog = req.get('blog')
-    rout = '/home/chus/Documentos/Portafolio/flask/hola/myapp/static/images/user'
     file = request.files['inputFile']    
-    fileObj = Path(rout)
+    fileObj = Path(rout_generic+'images/user')
     if fileObj.is_file():
-        os.mkdir(rout)
-    file.save(os.path.join('/home/chus/Documentos/Portafolio/flask/hola/myapp/static/images/user', file.filename))
+        os.mkdir(rout_generic+'images/user')
+    file.save(os.path.join(rout_generic+'images/user', file.filename))
     rout = 'images/user/{}'.format(file.filename)
     new_blog = Blog(title=title, blog_description=blog, image_dir_blog=rout)
     db.session.add(new_blog)
     db.session.commit()
     return 'Save'
+
+@admin.route('/delete_blog')
+def delete_blog():
+    blog = Blog.query.all()
+    return render_template("delete_blog.html", blog=blog)
+
+@admin.route('/delete_blog_success/<int:id>', methods=['POST'])
+def delete_blog_success(id):
+    blog = Blog.query.filter_by(id=id).first()
+    os.remove(rout_generic+blog.image_dir_blog)
+    db.session.delete(blog)
+    db.session.commit()
+    return 'Saved {id}'.format(id=id)
+
+@admin.route('/update_blog/<int:id>', methods=['POST'])
+def update_blog(id):
+    blog = Blog.query.filter_by(id=id).first()
+    return render_template("update_blog.html", blog=blog)
+
+@admin.route('/update_blog_save/<int:id>', methods=['POST'])
+def update_blog_save(id):
+    req = request.form
+    title = req.get('title')
+    print(title)
+    description = req.get('description')
+    print(description)
+    blog = Blog.query.filter_by(id=id).first()
+    blog.title = title
+    blog.blog_description = description
+    db.session.commit()
+    return '<a href="/index">Volver al inicio</a>'
+    
 
 """@admin.route('/image')
 def image():

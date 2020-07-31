@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <body>
+        <form action="../update_blog_save/{{blog.id}}" method="POST" enctype=multipart/form-data>
+            <label for="title">Titulo:</label>
+            <textarea name="title" id="" cols="30" rows="10">{{blog.title}}</textarea>
+            <br>
+            <label for="description">Descripcion:</label>            
+            <textarea name="description" id="" cols="30" rows="10">{{blog.blog_description}}</textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+</html>

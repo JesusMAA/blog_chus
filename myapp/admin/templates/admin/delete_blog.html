@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for item_blog in blog%}
+    <section>        
+            <h3>{{item_blog.title}}</h3>
+        <form action="./update_blog/{{item_blog.id}}" method="POST">
+            <button type="submit">edit</button>
+        </form>
+        <form action="./delete_blog_success/{{item_blog.id}}" method="POST">
+            <button type="submit">eliminar</button>
+        </form>
+    </section>
+    {% endfor %}
+</body>
+</html>
