@@ -76,7 +76,7 @@
 	    </section>
 	    <section class="blog-list px-3 py-5 p-md-5">
 		    <div class="container">
-				{% for item_blog in blog %}
+				{% for item_blog in blog.items %}
 				<div class="item mb-5">
 				    <div class="media">
 					    <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{url_for('static',filename=item_blog.image_dir_blog)}}" alt="image">
@@ -90,7 +90,24 @@
 			    </div><!--//item-->
 				{% endfor %}
 			    
-	    </section>
+		</section>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				{% if blog.has_prev %}
+				  <li class="page-item"> <a class="page-link" href="{{ blog.next_num }}">Previous</a></li>
+				{% else %}
+				  <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+				{% endif %}
+
+
+				{% if blog.has_next %}
+				  <li class="page-item"> <a class="page-link" href="{{ blog.next_num }}">Next</a></li>
+				{% else %}
+				  <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+				{% endif %}
+
+			</ul>
+		  </nav>
 	    
 	    <!--<footer class="footer text-center py-2 theme-bg-dark">
 		   

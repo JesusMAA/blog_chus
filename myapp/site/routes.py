@@ -7,11 +7,14 @@ site = Blueprint('site', __name__, template_folder='templates/site', static_fold
 
 @site.route('/')
 @site.route('/index')
-def index():
+@site.route('/<int:page>')
+@site.route('/index/<int:page>')
+def index(page=None):
     user = User.query.filter_by(id=1).first()
-    #blog = Blog.query.filter_by(id=1).first()
-    blog = Blog.query.all()
-    #print(blog)
+    blog = Blog.query.order_by(Blog.id.desc()).paginate(page, 5, False)
+    #print(len(blog))
+    if len(blog.items)==0:
+        return redirect(url_for('.index'))
     return render_template('index.html', user=user, blog=blog)
 
 @site.route('/<int:number>')
